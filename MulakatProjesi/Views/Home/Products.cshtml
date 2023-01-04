@@ -1,0 +1,53 @@
+﻿@{
+    ViewData["Title"] = "Product Page";
+}
+<style type="text/css">
+    #products > thead > tr > th, #products > tbody > tr > td {
+        vertical-align: middle;
+    }
+
+    #products > thead > tr > th {
+        color: #ab3c3a;
+    }
+</style>
+
+<div class="text-center">
+    <h1 class="display-4"></h1>
+    <div class="row justify-content-center">
+        <div class="col-10">
+            <table id="products" class="table table-bordered table-hover">
+                <thead>
+                    <tr class="table-active">
+                        <th>RESİM</th>
+                        <th style="text-align: start;">ÜRÜN ADI</th>
+                        <th>FİYAT</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(() => {
+        $.ajax({
+            url: "https://localhost:7240/Home/GetProducts",
+            method: 'GET',
+            success: (res) => {
+                $.each(JSON.parse(res), (k, v) => {
+                    console.log(v);
+                    var tr = `
+                                <tr>
+                                    <td><img src="${v.imageUrl}" width="50" height="50" alt="Italian Trulli"> </td>
+                                    <td style="text-align: start;"> ${v.name}</td>
+                                    <td> ${v.price.toFixed(2)}</td>
+                                </tr>
+                            `;
+                    $("#products tbody").append(tr);
+                })
+            }
+        })
+    });
+</script>
